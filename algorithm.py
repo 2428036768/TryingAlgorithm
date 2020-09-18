@@ -47,12 +47,17 @@ class Dynamic_programming:
         # val = [4, 2, 3]
         
         def knapsack(N, W, wt, val):
-            dp = np.zeros((N+1, W+1))   #初始化dp二维数组
-            for i in range(1, N+1):     #对N个物品进行选择
-                for w in range(1, W+1):    #对i个物品时计算每个W的最优解
-                    if w-wt[i-1]<0:          #如果背包装不下了，则不装如第i个物品
+            #初始化dp二维数组
+            dp = np.zeros((N+1, W+1))   
+            #对N个物品进行选择
+            for i in range(1, N+1):     
+                #对i个物品时计算每个W的最优解
+                for w in range(1, W+1):   
+                    #如果背包装不下了，则不装如第i个物品
+                    if w-wt[i-1]<0:          
                         dp[i][w]=dp[i-1][w]
-                    else:                     #能装下时，选择价值最大的装法
+                    #能装下时，选择价值最大的装法，不装第i个/装第i个
+                    else:                     
                         dp[i][w]=max(dp[i-1][w], dp[i-1][w-wt[i-1]]+val[i-1])
             return dp[N][W]
 
