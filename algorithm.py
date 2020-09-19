@@ -67,11 +67,10 @@ class Dynamic_programming:
             Sum=np.sum(num)
             if Sum%2: return False
             #初始化dp数组
-            dp=np.zeros((len(num)+1,int(Sum/2+1)))
+            dp=np.zeros((len(num)+1,int(Sum/2+1))).astype(np.bool_)
             #当背包负重为0时，就相当于找了将背包装满的方法。因此全部为true
             # dp.fill(False)
-            dp[:][0]=True  
-            
+            dp[:,0]=True  
             for i in range(1,len(num)+1):
                 #遍历所有的数字
                 for w in range(1,int(Sum/2)+1):
@@ -79,6 +78,7 @@ class Dynamic_programming:
                     if w-num[i-1]<0:
                         #装不下，则不装
                         dp[i][w]=dp[i-1][w]
+                        # print(dp[i-1][w])
                     else:
                         #装得下，选择装，或者不装
                         dp[i][w]=dp[i-1][w] or dp[i-1][w-num[i-1]]
@@ -88,6 +88,4 @@ if __name__ == "__main__":
     # print(Dynamic_programming.Fibonacci.fib(8))
     # print(Dynamic_programming.CoinChange.CoinChange([1,2,5],10))
     # print(Dynamic_programming.knapsack0_1.knapsack(3,4,[2,1,3],[4,2,3]))
-    # print(Dynamic_programming.knapsack0_1.canPartition([1,2,3,4,5,3,1,2]))
-
-    
+    print(Dynamic_programming.knapsack0_1.canPartition([2,2]))
