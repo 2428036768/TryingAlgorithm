@@ -60,9 +60,34 @@ class Dynamic_programming:
                     else:                     
                         dp[i][w]=max(dp[i-1][w], dp[i-1][w-wt[i-1]]+val[i-1])
             return dp[N][W]
+    
+        #0/1背包变体，分割等和子集：给定一个只包含正整数的非空数组，是否可以将这个数组分割成两个子集，使得两个子集的元素和相等
+        #转换为使用N个重量不同的物体，寻找一种能将载重为sum/2的背包装满的方法。如果找到即返回
+        def canPartition(num):
+            Sum=np.sum(num)
+            if Sum%2: return False
+            #初始化dp数组
+            dp=np.zeros((len(num)+1,int(Sum/2+1)))
+            #当背包负重为0时，就相当于找了将背包装满的方法。因此全部为true
+            # dp.fill(False)
+            dp[:][0]=True  
+            
+            for i in range(1,len(num)+1):
+                #遍历所有的数字
+                for w in range(1,int(Sum/2)+1):
+                    #遍历计算每个背包重量
+                    if w-num[i-1]<0:
+                        #装不下，则不装
+                        dp[i][w]=dp[i-1][w]
+                    else:
+                        #装得下，选择装，或者不装
+                        dp[i][w]=dp[i-1][w] or dp[i-1][w-num[i-1]]
+            return dp[len(num)][int(Sum/2)]
 
 if __name__ == "__main__":
     # print(Dynamic_programming.Fibonacci.fib(8))
     # print(Dynamic_programming.CoinChange.CoinChange([1,2,5],10))
-    print(Dynamic_programming.knapsack0_1.knapsack(3,4,[2,1,3],[4,2,3]))
+    # print(Dynamic_programming.knapsack0_1.knapsack(3,4,[2,1,3],[4,2,3]))
+    # print(Dynamic_programming.knapsack0_1.canPartition([1,2,3,4,5,3,1,2]))
+
     
