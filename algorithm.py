@@ -133,7 +133,6 @@ class Dynamic_programming:
                 return res
             
             dp(K,N)
-            print(1)
             return memo[numToString(K,N)]
 
 if __name__ == "__main__":
@@ -143,4 +142,4 @@ if __name__ == "__main__":
     # print(Dynamic_programming.knapsack0_1.canPartition([2, 2]))
     # print(Dynamic_programming.Interview.minDistance('horse','ros'))
 
-    print(Dynamic_programming.SuperEggDrop.SuperEggDrop(5,100))
+    print(Dynamic_programming.SuperEggDrop.SuperEggDrop(2,100))
