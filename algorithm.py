@@ -108,10 +108,39 @@ class Dynamic_programming:
                             dp[i-1][j-1]+1
                             )
             return dp[m][n]
+    class SuperEggDrop:
+        #高楼扔鸡蛋
+        #K为鸡蛋个数，N为楼层高度
+        #备忘录法
+        def SuperEggDrop(K,N):
+
+            def numToString(K,N):
+                return str(K)+str(N)
+            
+            memo=dict()
+            def dp(K,N):
+                if K==1: return N  #当只有一个鸡蛋的时候，只能使用线性遍历，此时最坏的情况为N
+                if N==0: return 0 #当楼高为0时，至少试0次
+                if numToString(K,N) in memo.keys(): return memo[numToString(K,N)] 
+                res=float('inf')
+                for i in range(1,N+1):
+                    res=min(res,             #至少多少次
+                            max(             #选择最坏的情况
+                                dp(K,N-i),  #鸡蛋没碎,向更高的楼层寻找
+                                dp(K-1,i-1)   #鸡蛋碎了，向下面的楼层寻找
+                            )+1)
+                memo[numToString(K,N)]=res
+                return res
+            
+            dp(K,N)
+            print(1)
+            return memo[numToString(K,N)]
 
 if __name__ == "__main__":
     # print(Dynamic_programming.Fibonacci.fib(8))
     # print(Dynamic_programming.CoinChange.CoinChange([1,2,5],10))
     # print(Dynamic_programming.knapsack0_1.knapsack(3,4,[2,1,3],[4,2,3]))
     # print(Dynamic_programming.knapsack0_1.canPartition([2, 2]))
-    print(Dynamic_programming.Interview.minDistance('horse','ros'))
+    # print(Dynamic_programming.Interview.minDistance('horse','ros'))
+
+    print(Dynamic_programming.SuperEggDrop.SuperEggDrop(5,100))
