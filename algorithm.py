@@ -134,6 +134,38 @@ class Dynamic_programming:
             
             dp(K,N)
             return memo[numToString(K,N)]
+    class rob:
+        #打家劫舍问题：你是个专业盗贼。每间房都有一定的现金，影响你的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两件相邻的房屋在同一天晚上被盗贼闯入，系统会自动报警。
+        #给定一个代表每个房屋存放金额的非负整数数组，计算你在不出东警报装置的情况下，能偷到的最高金额
+        #num数组给定每个房屋存放金额
+        #dp数组法：dp[n]=x   偷盗前n间房时，最高偷盗金额为x
+        #base case: dp[0]=0 dp[1]=num[0]
+        def rob1(num):
+            dp=np.zeros(len(num)+1)
+            dp[0]=0
+            dp[1]=num[0]
+            for i in range(2,len(num)+1):
+                dp[i]=max(dp[i-1],dp[i-2]+num[i-1])
+            return dp[len(num)]
+        #这道题目和第一道描述基本一样，强盗依然不能抢劫相邻的房子，输入依然是一个数组，但是告诉你这些房子不是一排，而是围成了一个圈。
+        #首先，首尾房间不能同时被抢，那么只可能有2种不同情况：要么第一间房子被抢最后一间不抢；要么最后一间房子被抢第一间不抢。
+        def rob2(num):
+            def rob(num):
+                return max(robRange(num,0,len(num)-1),   #最后一个不取
+                            robRange(num,1,len(num)))    #第一个不取
+            
+            def robRange(num,start,end):
+                dp=np.zeros(end+1)
+                dp[start]=0
+                dp[start+1]=num[start]
+                for i in range(start+2,end+1):
+                    dp[i]=max(dp[i-1],dp[i-2]+num[i-1])
+                return dp[end]
+            
+            return rob(num)
+
+
+
 
 if __name__ == "__main__":
     # print(Dynamic_programming.Fibonacci.fib(8))
@@ -141,5 +173,6 @@ if __name__ == "__main__":
     # print(Dynamic_programming.knapsack0_1.knapsack(3,4,[2,1,3],[4,2,3]))
     # print(Dynamic_programming.knapsack0_1.canPartition([2, 2]))
     # print(Dynamic_programming.Interview.minDistance('horse','ros'))
-
-    print(Dynamic_programming.SuperEggDrop.SuperEggDrop(2,100))
+    # print(Dynamic_programming.SuperEggDrop.SuperEggDrop(2,100))
+    # print(Dynamic_programming.rob.rob1([1,2,3,1]))
+    print(Dynamic_programming.rob.rob2([2,7,9,3,1]))
